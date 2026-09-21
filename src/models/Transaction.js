@@ -1,0 +1,50 @@
+﻿const mongoose=require("mongoose");
+
+const schema=new mongoose.Schema({
+    portefeuille:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Portefeuille",
+        required:true
+    },
+    portefeuille_credite:{
+        type:Boolean,
+        default:false
+    },
+    montant:{
+        type:Number,
+        required:true,
+        min:0
+    },
+    type_transaction:{
+        type:String,
+        enum:["depot","paiement"],
+        default:"depot"
+    },
+    methode_payement:{
+        type:String,
+        enum:["FLOOZ","TMONEY"],
+        default:"TMONEY"
+    },
+    telephone:{
+        type:String,
+        required:true
+    },
+    statut:{
+        type:Number,
+        enum:[0,2,4,6,-1],
+        default:2
+    },
+    identifier:{
+        type:String,
+        unique:true,
+        sparse:true
+    },
+    reference_externe:String,
+    date_transaction:{
+        type:Date,
+        default:Date.now
+    },
+    description:String
+},{timestamps:true});
+
+module.exports=mongoose.model("Transaction",schema);
